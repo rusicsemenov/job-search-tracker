@@ -1,0 +1,9 @@
+{
+    "enabledPlugins": {
+        "frontend-design@claude-code-plugins": true
+    },
+    "enableAllProjectMcpServers": true,
+    "permissions": {
+        "allow": ["mcp__playwright__*"]
+    }
+}
