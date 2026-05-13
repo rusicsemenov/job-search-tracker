@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, User } from 'lucide-react';
+import { Building2, Users, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SignOutButton } from '@/components/sign-out-button';
 
@@ -10,7 +10,10 @@ interface SidebarProps {
     userEmail: string;
 }
 
-const navItems = [{ href: '/companies', label: 'Companies', icon: Building2 }];
+const navItems = [
+    { href: '/companies', label: 'Companies', icon: Building2 },
+    { href: '/clients', label: 'Clients', icon: Users },
+];
 
 export function Sidebar({ userEmail }: SidebarProps) {
     const pathname = usePathname();

@@ -15,6 +15,8 @@ export async function createContact(_prevState: { error?: string } | null, formD
     const companyId = formData.get('company_id') as string;
     if (!name?.trim()) return { error: 'Contact name is required' };
 
+    const redirectTo = (formData.get('redirect_to') as string) || `/companies/${companyId}`;
+
     const { error } = await supabase.from('contacts').insert({
         user_id: user.id,
         company_id: companyId,
@@ -22,16 +24,18 @@ export async function createContact(_prevState: { error?: string } | null, formD
         role: (formData.get('role') as string) || null,
         email: (formData.get('email') as string) || null,
         linkedin: (formData.get('linkedin') as string) || null,
+        telegram: (formData.get('telegram') as string) || null,
+        instagram: (formData.get('instagram') as string) || null,
         notes: (formData.get('notes') as string) || null,
     });
 
     if (error) return { error: error.message };
 
-    revalidatePath(`/companies/${companyId}`);
-    redirect(`/companies/${companyId}`);
+    revalidatePath(redirectTo);
+    redirect(redirectTo);
 }
 
-export async function deleteContact(id: string, companyId: string) {
+export async function deleteContact(id: string, companyId: string, redirectTo?: string) {
     const supabase = await createClient();
     const {
         data: { user },
@@ -40,5 +44,6 @@ export async function deleteContact(id: string, companyId: string) {
 
     await supabase.from('contacts').delete().eq('id', id).eq('user_id', user.id);
 
-    revalidatePath(`/companies/${companyId}`);
+    const path = redirectTo || `/companies/${companyId}`;
+    revalidatePath(path);
 }

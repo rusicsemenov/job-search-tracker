@@ -37,6 +37,8 @@ export default function NewCompanyPage() {
                 </CardHeader>
                 <CardContent>
                     <form action={action} className="space-y-4">
+                        <input type="hidden" name="type" value="job" />
+
                         <div className="space-y-1.5">
                             <Label htmlFor="name">Company name *</Label>
                             <Input id="name" name="name" placeholder="Acme Corp" required />
@@ -49,6 +51,35 @@ export default function NewCompanyPage() {
                                 name="website"
                                 placeholder="https://acme.com"
                                 type="url"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label htmlFor="telegram">Telegram</Label>
+                            <Input id="telegram" name="telegram" placeholder="@acmecorp" />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label htmlFor="phone">Phone</Label>
+                            <Input id="phone" name="phone" placeholder="+1 555 000 0000" />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label htmlFor="company_email">Email</Label>
+                            <Input
+                                id="company_email"
+                                name="company_email"
+                                type="email"
+                                placeholder="hr@acme.com"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label htmlFor="instagram">Instagram</Label>
+                            <Input
+                                id="instagram"
+                                name="instagram"
+                                placeholder="https://instagram.com/acmecorp"
                             />
                         </div>
 

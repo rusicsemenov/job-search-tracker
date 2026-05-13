@@ -3,15 +3,15 @@ import { createClient } from '@/lib/supabase/server';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { buttonVariants } from '@/components/ui/button';
-import { Plus, Search, Building2 } from 'lucide-react';
-import { COMPANY_STATUS_LABELS, COMPANY_STATUS_COLOR, type CompanyStatus } from '@/lib/types';
+import { Plus, Search, Users } from 'lucide-react';
+import { CLIENT_STATUS_LABELS, CLIENT_STATUS_COLOR, type ClientStatus } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface PageProps {
     searchParams: Promise<{ q?: string }>;
 }
 
-export default async function CompaniesPage({ searchParams }: PageProps) {
+export default async function ClientsPage({ searchParams }: PageProps) {
     const { q } = await searchParams;
     const supabase = await createClient();
     const {
@@ -22,27 +22,27 @@ export default async function CompaniesPage({ searchParams }: PageProps) {
         .from('companies')
         .select('*')
         .eq('user_id', user!.id)
-        .eq('type', 'job')
+        .eq('type', 'client')
         .order('created_at', { ascending: false });
 
     if (q?.trim()) {
         query = query.ilike('name', `%${q.trim()}%`);
     }
 
-    const { data: companies } = await query;
+    const { data: clients } = await query;
 
     return (
         <div className="p-8">
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-2xl font-semibold">Companies</h2>
+                    <h2 className="text-2xl font-semibold">Clients</h2>
                     <p className="text-sm text-muted-foreground mt-0.5">
-                        {companies?.length ?? 0} {companies?.length === 1 ? 'company' : 'companies'}
+                        {clients?.length ?? 0} {clients?.length === 1 ? 'client' : 'clients'}
                     </p>
                 </div>
-                <Link href="/companies/new" className={cn(buttonVariants())}>
+                <Link href="/clients/new" className={cn(buttonVariants())}>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Company
+                    Add Client
                 </Link>
             </div>
 
@@ -52,25 +52,25 @@ export default async function CompaniesPage({ searchParams }: PageProps) {
                     <Input
                         name="q"
                         defaultValue={q}
-                        placeholder="Search companies…"
+                        placeholder="Search clients…"
                         className="pl-9"
                     />
                 </div>
             </form>
 
-            {companies?.length === 0 ? (
+            {clients?.length === 0 ? (
                 <div className="text-center py-16 text-muted-foreground">
-                    <Building2 className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                    <Users className="h-10 w-10 mx-auto mb-3 opacity-30" />
                     <p className="font-medium">
-                        {q ? 'No companies match your search' : 'No companies yet'}
+                        {q ? 'No clients match your search' : 'No clients yet'}
                     </p>
                     {!q && (
                         <p className="text-sm mt-1">
                             <Link
-                                href="/companies/new"
+                                href="/clients/new"
                                 className="text-primary underline-offset-4 hover:underline"
                             >
-                                Add your first company
+                                Add your first client
                             </Link>
                         </p>
                     )}
@@ -81,7 +81,7 @@ export default async function CompaniesPage({ searchParams }: PageProps) {
                         <thead>
                             <tr className="border-b bg-gray-50">
                                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">
-                                    Company
+                                    Client
                                 </th>
                                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">
                                     Location
@@ -93,38 +93,36 @@ export default async function CompaniesPage({ searchParams }: PageProps) {
                             </tr>
                         </thead>
                         <tbody className="divide-y">
-                            {companies?.map((company) => (
-                                <tr key={company.id} className="hover:bg-gray-50 transition-colors">
+                            {clients?.map((client) => (
+                                <tr key={client.id} className="hover:bg-gray-50 transition-colors">
                                     <td className="px-4 py-3 font-medium">
                                         <Link
-                                            href={`/companies/${company.id}`}
+                                            href={`/clients/${client.id}`}
                                             className="hover:underline"
                                         >
-                                            {company.name}
+                                            {client.name}
                                         </Link>
-                                        {company.website && (
+                                        {client.website && (
                                             <span className="ml-2 text-xs text-muted-foreground">
-                                                {company.website}
+                                                {client.website}
                                             </span>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-muted-foreground">
-                                        {company.location ?? '—'}
+                                        {client.location ?? '—'}
                                     </td>
                                     <td className="px-4 py-3">
                                         <Badge
                                             className={
-                                                COMPANY_STATUS_COLOR[
-                                                    company.status as CompanyStatus
-                                                ]
+                                                CLIENT_STATUS_COLOR[client.status as ClientStatus]
                                             }
                                         >
-                                            {COMPANY_STATUS_LABELS[company.status as CompanyStatus]}
+                                            {CLIENT_STATUS_LABELS[client.status as ClientStatus]}
                                         </Badge>
                                     </td>
                                     <td className="px-4 py-3 text-right">
                                         <Link
-                                            href={`/companies/${company.id}`}
+                                            href={`/clients/${client.id}`}
                                             className={cn(
                                                 buttonVariants({ variant: 'ghost', size: 'sm' }),
                                             )}

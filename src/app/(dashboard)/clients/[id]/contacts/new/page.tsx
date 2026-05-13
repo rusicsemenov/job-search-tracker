@@ -16,10 +16,10 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-export default function NewContactPage({ params }: PageProps) {
+export default function NewClientContactPage({ params }: PageProps) {
     const { id: companyId } = use(params);
     const [state, action, pending] = useActionState(createContact, null);
-    const backPath = `/companies/${companyId}`;
+    const backPath = `/clients/${companyId}`;
 
     return (
         <div className="p-8 max-w-xl">
@@ -28,7 +28,7 @@ export default function NewContactPage({ params }: PageProps) {
                 className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-6"
             >
                 <ArrowLeft className="h-4 w-4" />
-                Back to company
+                Back to client
             </Link>
 
             <Card>
@@ -47,7 +47,7 @@ export default function NewContactPage({ params }: PageProps) {
 
                         <div className="space-y-1.5">
                             <Label htmlFor="role">Role / Title</Label>
-                            <Input id="role" name="role" placeholder="Engineering Manager" />
+                            <Input id="role" name="role" placeholder="CEO" />
                         </div>
 
                         <div className="space-y-1.5">
@@ -57,15 +57,6 @@ export default function NewContactPage({ params }: PageProps) {
                                 name="email"
                                 type="email"
                                 placeholder="jane@company.com"
-                            />
-                        </div>
-
-                        <div className="space-y-1.5">
-                            <Label htmlFor="linkedin">LinkedIn URL</Label>
-                            <Input
-                                id="linkedin"
-                                name="linkedin"
-                                placeholder="https://linkedin.com/in/jane"
                             />
                         </div>
 
@@ -80,6 +71,15 @@ export default function NewContactPage({ params }: PageProps) {
                                 id="instagram"
                                 name="instagram"
                                 placeholder="https://instagram.com/jane"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label htmlFor="linkedin">LinkedIn URL</Label>
+                            <Input
+                                id="linkedin"
+                                name="linkedin"
+                                placeholder="https://linkedin.com/in/jane"
                             />
                         </div>
 

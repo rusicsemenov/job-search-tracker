@@ -25,10 +25,10 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-export default function EditCompanyPage({ params }: PageProps) {
+export default function EditClientPage({ params }: PageProps) {
     const { id } = use(params);
     const [state, action, pending] = useActionState(updateCompany, null);
-    const [company, setCompany] = useState<Company | null>(null);
+    const [client, setClient] = useState<Company | null>(null);
 
     useEffect(() => {
         const supabase = createClient();
@@ -38,36 +38,36 @@ export default function EditCompanyPage({ params }: PageProps) {
             .eq('id', id)
             .single()
             .then(({ data }) => {
-                setCompany(data);
+                setClient(data);
             });
     }, [id]);
 
-    if (!company) {
+    if (!client) {
         return <div className="p-8 text-sm text-muted-foreground">Loading…</div>;
     }
 
     return (
         <div className="p-8 max-w-xl">
             <Link
-                href={`/companies/${id}`}
+                href={`/clients/${id}`}
                 className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-6"
             >
                 <ArrowLeft className="h-4 w-4" />
-                Back to company
+                Back to client
             </Link>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Edit Company</CardTitle>
+                    <CardTitle>Edit Client</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form action={action} className="space-y-4">
                         <input type="hidden" name="id" value={id} />
-                        <input type="hidden" name="type" value="job" />
+                        <input type="hidden" name="type" value="client" />
 
                         <div className="space-y-1.5">
-                            <Label htmlFor="name">Company name *</Label>
-                            <Input id="name" name="name" defaultValue={company.name} required />
+                            <Label htmlFor="name">Client name *</Label>
+                            <Input id="name" name="name" defaultValue={client.name} required />
                         </div>
 
                         <div className="space-y-1.5">
@@ -75,7 +75,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Input
                                 id="website"
                                 name="website"
-                                defaultValue={company.website ?? ''}
+                                defaultValue={client.website ?? ''}
                                 type="url"
                             />
                         </div>
@@ -85,7 +85,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Input
                                 id="telegram"
                                 name="telegram"
-                                defaultValue={company.telegram ?? ''}
+                                defaultValue={client.telegram ?? ''}
                                 placeholder="@acmecorp"
                             />
                         </div>
@@ -95,7 +95,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Input
                                 id="phone"
                                 name="phone"
-                                defaultValue={company.phone ?? ''}
+                                defaultValue={client.phone ?? ''}
                                 placeholder="+1 555 000 0000"
                             />
                         </div>
@@ -106,8 +106,8 @@ export default function EditCompanyPage({ params }: PageProps) {
                                 id="company_email"
                                 name="company_email"
                                 type="email"
-                                defaultValue={company.company_email ?? ''}
-                                placeholder="hr@acme.com"
+                                defaultValue={client.company_email ?? ''}
+                                placeholder="hello@acme.com"
                             />
                         </div>
 
@@ -116,7 +116,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Input
                                 id="instagram"
                                 name="instagram"
-                                defaultValue={company.instagram ?? ''}
+                                defaultValue={client.instagram ?? ''}
                                 placeholder="https://instagram.com/acmecorp"
                             />
                         </div>
@@ -126,21 +126,21 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Input
                                 id="location"
                                 name="location"
-                                defaultValue={company.location ?? ''}
+                                defaultValue={client.location ?? ''}
                             />
                         </div>
 
                         <div className="space-y-1.5">
                             <Label htmlFor="status">Status</Label>
-                            <Select name="status" defaultValue={company.status}>
+                            <Select name="status" defaultValue={client.status}>
                                 <SelectTrigger id="status">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="researching">Researching</SelectItem>
-                                    <SelectItem value="actively_applying">
-                                        Actively Applying
-                                    </SelectItem>
+                                    <SelectItem value="prospecting">Prospecting</SelectItem>
+                                    <SelectItem value="contacted">Contacted</SelectItem>
+                                    <SelectItem value="interested">Interested</SelectItem>
+                                    <SelectItem value="closed">Closed</SelectItem>
                                     <SelectItem value="archived">Archived</SelectItem>
                                 </SelectContent>
                             </Select>
@@ -151,7 +151,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                             <Textarea
                                 id="notes"
                                 name="notes"
-                                defaultValue={company.notes ?? ''}
+                                defaultValue={client.notes ?? ''}
                                 rows={3}
                             />
                         </div>
@@ -163,7 +163,7 @@ export default function EditCompanyPage({ params }: PageProps) {
                                 {pending ? 'Saving…' : 'Save changes'}
                             </Button>
                             <Link
-                                href={`/companies/${id}`}
+                                href={`/clients/${id}`}
                                 className={cn(buttonVariants({ variant: 'outline' }))}
                             >
                                 Cancel
