@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, User } from 'lucide-react';
+import { Building2, Users, User, LayoutDashboard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SignOutButton } from '@/components/sign-out-button';
 
@@ -11,6 +11,7 @@ interface SidebarProps {
 }
 
 const navItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/companies', label: 'Companies', icon: Building2 },
     { href: '/clients', label: 'Clients', icon: Users },
 ];
